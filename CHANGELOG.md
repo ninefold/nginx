@@ -2,6 +2,10 @@ nginx Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the nginx cookbook.
 
+v2.7.90 (Ninefold forked version)
+---------------------------------
+* Update dependencies to make them work with ninefold_app
+
 v2.7.5 (Unreleased)
 -------------------
 * Fix typo in `source.rb`, [#205][] [@gregkare][]
