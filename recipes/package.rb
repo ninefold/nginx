@@ -20,6 +20,7 @@
 
 include_recipe 'nginx::ohai_plugin'
 
+
 if platform_family?('rhel')
   if node['nginx']['repo_source'] == 'epel'
     include_recipe 'yum-epel'
@@ -40,7 +41,15 @@ end
 package node['nginx']['package_name'] do
   options package_install_opts
   notifies :reload, 'ohai[reload_nginx]', :immediately
-  not_if 'which nginx'
+  version node['nginx']['package_version']
+  action :upgrade
+end
+
+# Remove default.conf that seems to come packaged with nginx
+file 'remove nginx packaged confd default.conf' do
+  path '/etc/nginx/conf.d/default.conf'
+  only_if { node['nginx']['allow_default_config'] && File.exist? '/etc/nginx/conf.d/default.conf' }
+  action :delete
 end
 
 service 'nginx' do
